@@ -36,24 +36,28 @@ public class ColumnPool : MonoBehaviour
 	//This spawns columns as long as the game is not over.
 	void Update()
 	{
-		timeSinceLastSpawned += Time.deltaTime;
+		//If the game has started...
+		if (GameControl.instance.gameStarted == true)
+		{
+			timeSinceLastSpawned += Time.deltaTime;
 
-		if (GameControl.instance.gameOver == false && timeSinceLastSpawned >= spawnRate) 
-		{	
-			timeSinceLastSpawned = 0f;
-
-			//Set a random y position for the column
-			float spawnYPosition = Random.Range(columnMin, columnMax);
-
-			//...then set the current column to that position.
-			columns[currentColumn].transform.position = new Vector2(spawnXPosition, spawnYPosition);
-
-			//Increase the value of currentColumn. If the new size is too big, set it back to zero
-			currentColumn ++;
-
-			if (currentColumn >= columnPoolSize) 
+			if (GameControl.instance.gameOver == false && timeSinceLastSpawned >= spawnRate)
 			{
-				currentColumn = 0;
+				timeSinceLastSpawned = 0f;
+
+				//Set a random y position for the column
+				float spawnYPosition = Random.Range(columnMin, columnMax);
+
+				//...then set the current column to that position.
+				columns[currentColumn].transform.position = new Vector2(spawnXPosition, spawnYPosition);
+
+				//Increase the value of currentColumn. If the new size is too big, set it back to zero
+				currentColumn++;
+
+				if (currentColumn >= columnPoolSize)
+				{
+					currentColumn = 0;
+				}
 			}
 		}
 	}
