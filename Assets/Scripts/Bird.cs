@@ -15,6 +15,8 @@ public class Bird : MonoBehaviour
 		anim = GetComponent<Animator> ();
 		//Get and store a reference to the Rigidbody2D attached to this GameObject.
 		rb2d = GetComponent<Rigidbody2D>();
+		//If the game hasn't started yet, let the bird just float.
+		rb2d.isKinematic = true;
 	}
 
 	void Update()
@@ -22,16 +24,23 @@ public class Bird : MonoBehaviour
 		//Don't allow control if the bird has died.
 		if (isDead == false) 
 		{
-			//Look for input to trigger a "flap".
-			if (Input.GetMouseButtonDown(0)) 
+			//If the game has started...
+			if (GameControl.instance.gameStarted == true) 
 			{
-				//...tell the animator about it and then...
-				anim.SetTrigger("Flap");
-				//...zero out the birds current y velocity before...
-				rb2d.velocity = Vector2.zero;
-				//	new Vector2(rb2d.velocity.x, 0);
-				//..giving the bird some upward force.
-				rb2d.AddForce(new Vector2(0, upForce));
+				//Now the player has to control the bird.
+				rb2d.isKinematic = false;
+
+				//Look for input to trigger a "flap".
+				if (Input.GetMouseButtonDown(0))
+				{
+					//...tell the animator about it and then...
+					anim.SetTrigger("Flap");
+					//...zero out the birds current y velocity before...
+					rb2d.velocity = Vector2.zero;
+					//	new Vector2(rb2d.velocity.x, 0);
+					//..giving the bird some upward force.
+					rb2d.AddForce(new Vector2(0, upForce));
+				}
 			}
 		}
 	}
