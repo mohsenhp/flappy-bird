@@ -13,9 +13,12 @@ public class GameControl : MonoBehaviour
 	public bool scoreChanged = false;           //Has the score changed? 
 	public bool gameOver = false;				//Is the game over?
 	
-	public float scrollSpeed;                   //How fast does the bird fly?
+	public float scrollSpeed;                   //How fast does the bird fly? (Make sure this coefficient is not set... 
+												//... to zero or a positive number in the editor)
+	
 	public int speedIncreaseInterval;           //After how many columns should the speed increae?
-	public float speedIncreaseCoefficient;      //To what extent should the speed increase?
+	public float speedIncreaseCoefficient;      //To what extent should the speed increase? (Make sure this coefficient is not set... 
+												//... to zero or a negative number in the editor)
 
 
 	void Awake()
