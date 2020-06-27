@@ -9,9 +9,16 @@ public class GameControl : MonoBehaviour
 	public Text scoreText;						//A reference to the UI text component that displays the player's score.
 	public GameObject gameOvertext;				//A reference to the object that displays the text which appears when the player dies.
 
-	private int score = 0;						//The player's score.
+	private int score = 0;                      //The player's score.
+	public bool scoreChanged = false;           //Has the score changed? 
 	public bool gameOver = false;				//Is the game over?
-	public float scrollSpeed;
+	
+	public float scrollSpeed;                   //How fast does the bird fly? (Make sure this coefficient is not set... 
+												//... to zero or a positive number in the editor)
+	
+	public int speedIncreaseInterval;           //After how many columns should the speed increae?
+	public float speedIncreaseCoefficient;      //To what extent should the speed increase? (Make sure this coefficient is not set... 
+												//... to zero or a negative number in the editor)
 
 
 	void Awake()
@@ -28,6 +35,12 @@ public class GameControl : MonoBehaviour
 
 	void Update()
 	{
+		if (score > 0 && score % speedIncreaseInterval == 0 && scoreChanged == true)
+		{
+			scrollSpeed *= speedIncreaseCoefficient;
+			scoreChanged = false;
+		}
+
 		//If the game is over and the player has pressed some input...
 		if (gameOver && Input.GetMouseButtonDown(0)) 
 		{
@@ -42,6 +55,7 @@ public class GameControl : MonoBehaviour
 		if (gameOver)	
 			return;
 		//If the game is not over, increase the score...
+		scoreChanged = true;
 		score++;
 		//...and adjust the score text.
 		scoreText.text = "Score: " + score.ToString();
