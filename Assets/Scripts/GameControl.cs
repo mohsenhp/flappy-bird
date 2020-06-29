@@ -7,13 +7,15 @@ using System;
 public class GameControl : MonoBehaviour 
 {
 	public static GameControl instance;			//A reference to our game control script so we can access it statically.
-	public Text scoreText;						//A reference to the UI text component that displays the player's score.
+	public Text scoreText;                      //A reference to the UI text component that displays the player's score.
+	public Text bombText;                       ////A reference to the UI text component that displays the number of bombs.
 	public GameObject gameOvertext;             //A reference to the object that displays the text which appears when the player dies.
 	public GameObject birdObject;               //A reference to the bird.
 	public GameObject startMenu;                //A reference to the object that displays the start menu.
-
+	public Button bombButton;                   //This button activates the power-up
 
 	private int score = 0;                      //The player's score.
+	public int bombCount = 0;                      //How many bombs have you got?
 	public bool scoreChanged = false;           //Has the score changed? 
 	public bool gameStarted = false;            //Has the game started?
 	public bool gameOver = false;				//Is the game over?
@@ -62,6 +64,8 @@ public class GameControl : MonoBehaviour
 				//...reload the current scene.
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 			}
+			//In case there is a change in number of bombs
+			UpdateBombTextAndIcon();
 	}
 
 	public void BirdScored()
@@ -82,6 +86,21 @@ public class GameControl : MonoBehaviour
 		gameOvertext.SetActive (true);
 		//Set the game to be over.
 		gameOver = true;
+	}
+
+	public void BombAcquired()
+	{
+		//Debug.Log("Bomb Acquired!");
+		bombCount++;
+	}
+
+	private void UpdateBombTextAndIcon()
+	{
+		bombText.text = "x " + bombCount.ToString();
+		if (bombCount > 0)
+			bombButton.interactable = true;
+		else
+			bombButton.interactable = false;
 	}
 
 
