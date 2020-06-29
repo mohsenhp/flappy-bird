@@ -21,14 +21,29 @@ public class ColumnPool : MonoBehaviour
 	void Start()
 	{
 		timeSinceLastSpawned = 0f;
+		InitializeColumns();
+	}
 
+	//Initializes the columns at the start of the game
+	private void InitializeColumns()
+	{
 		//Initialize the columns collection.
 		columns = new GameObject[columnPoolSize];
 		//Loop through the collection... 
-		for(int i = 0; i < columnPoolSize; i++)
+		for (int i = 0; i < columnPoolSize; i++)
 		{
 			//...and create the individual columns.
 			columns[i] = (GameObject)Instantiate(columnPrefab, objectPoolPosition, Quaternion.identity);
+		}
+	}
+
+	//Destroys the current columns in case a power-up is used.
+	private void DestroyColumns()
+	{
+		for (int i = 0; i < columnPoolSize; i++)
+		{
+			//...and create the individual columns.
+			Destroy(columns[i]);
 		}
 	}
 
@@ -55,10 +70,28 @@ public class ColumnPool : MonoBehaviour
 				currentColumn++;
 
 				if (currentColumn >= columnPoolSize)
-				{
 					currentColumn = 0;
-				}
 			}
+			
+			//In the Unity editor, we can use a power-up also by right-clicking.
+			if (Input.GetMouseButtonDown(1) && GameControl.instance.bombCount > 0)
+				BombActivated();
+		}
+	}
+
+	public void BombActivated()
+	{
+		if (!GameControl.instance.gameOver)
+		{
+			//Reduces one from the number of bombs...
+			GameControl.instance.bombCount--;
+			//...but keep the count at zero at the least
+			if (GameControl.instance.bombCount < 0)
+				GameControl.instance.bombCount = 0;
+			//Destroy the columns...
+			DestroyColumns();
+			//... and re-initialise them again.
+			InitializeColumns();
 		}
 	}
 }

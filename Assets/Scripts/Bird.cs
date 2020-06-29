@@ -7,8 +7,7 @@ public class Bird : MonoBehaviour
 	private bool isDead = false;			//Has the player collided with a wall?
 
 	private Animator anim;					//Reference to the Animator component.
-	private Rigidbody2D rb2d;				//Holds a reference to the Rigidbody2D component of the bird.
-
+	private Rigidbody2D rb2d;               //Holds a reference to the Rigidbody2D component of the bird.
 	void Start()
 	{
 		//Get reference to the Animator component attached to this GameObject.
@@ -47,13 +46,25 @@ public class Bird : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		// Zero out the bird's velocity
-		rb2d.velocity = Vector2.zero;
-		// If the bird collides with something set it to dead...
-		isDead = true;
-		//...tell the Animator about it...
-		anim.SetTrigger ("Die");
-		//...and tell the game control about it.
-		GameControl.instance.BirdDied ();
+			// Zero out the bird's velocity
+			rb2d.velocity = Vector2.zero;
+			// If the bird collides with something set it to dead...
+			isDead = true;
+			//...tell the Animator about it...
+			anim.SetTrigger("Die");
+			//...and tell the game control about it.
+			GameControl.instance.BirdDied();
+	}
+
+	//Once the bird hits a bomb (power-up)
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.transform.name == "Bomb(Clone)")
+		{
+			//Detroy the bomb game object and...
+			Destroy(other.gameObject);
+			//... and let the Game Control know that a power-up has been acquired.
+			GameControl.instance.BombAcquired();
+		}
 	}
 }
