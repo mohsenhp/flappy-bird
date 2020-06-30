@@ -45,6 +45,7 @@ public class ColumnPool : MonoBehaviour
 			//...and create the individual columns.
 			Destroy(columns[i]);
 		}
+		AudioManager.instance.PlayMusic("DestroyColumns");
 	}
 
 
