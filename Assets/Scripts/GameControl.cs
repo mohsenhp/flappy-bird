@@ -48,6 +48,7 @@ public class GameControl : MonoBehaviour
 		birdObject.SetActive(true);
 		//The start menu goes away
 		startMenu.SetActive(false);
+		AudioManager.instance.PlayMusic("MainTheme");
 	}
 
 	void Update()
@@ -86,12 +87,15 @@ public class GameControl : MonoBehaviour
 		gameOvertext.SetActive (true);
 		//Set the game to be over.
 		gameOver = true;
+		AudioManager.instance.StopMusic("MainTheme");
+		AudioManager.instance.PlayMusic("GameOver");
 	}
 
 	public void BombAcquired()
 	{
 		//Debug.Log("Bomb Acquired!");
 		bombCount++;
+		AudioManager.instance.PlayMusic("ItemPickup");
 	}
 
 	private void UpdateBombTextAndIcon()
