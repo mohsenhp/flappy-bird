@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BombGenerator : MonoBehaviour
 {
-    public GameObject Parent;
+    public GameObject Parent;             //The game object all bombs will be childeren of
     public GameObject bombPrefab;         //A reference to the bomb prefab
     public float spawnInterval;           //The interval at which bombs are instantiated 
 
     private Vector2 ScreenBounds;         //A reference to the screen bounds
 
-    public float bombSpeed;                   //How fast does the bird fly? (Make sure this coefficient is not set... 
+    public float bombSpeed;               //How fast does the power-up fly?
 
 
     // Start is called before the first frame update
@@ -25,13 +25,12 @@ public class BombGenerator : MonoBehaviour
     {
         if (GameControl.instance.gameStarted == true && GameControl.instance.gameOver == false)
         {
-            float BombXPosition = Random.Range(ScreenBounds.x -1 , -ScreenBounds.x + 15);
+            float BombXPosition = ScreenBounds.x;
             float BombYPosition = Random.Range(ScreenBounds.y - 1, -ScreenBounds.y + 4);
             GameObject bomb = Instantiate(bombPrefab) as GameObject;
             bomb.transform.position = new Vector2(BombXPosition, BombYPosition);
             bomb.transform.SetParent(Parent.transform);
             bomb.GetComponent<Rigidbody2D>().velocity = new Vector2(bombSpeed, 0);
-
         }
     }
 

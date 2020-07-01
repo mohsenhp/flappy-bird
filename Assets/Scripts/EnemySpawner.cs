@@ -5,13 +5,12 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 
-    public GameObject Parent;
+    public GameObject Parent;              //The game object all enemies will be childeren of
     public GameObject enemyPrefab;         //A reference to the enemy prefab
     public float spawnInterval;           //The interval at which bombs are instantiated 
 
     private Vector2 ScreenBounds;         //A reference to the screen bounds
-
-    public float enemySpeed;                   //How fast does the bird fly? (Make sure this coefficient is not set... 
+    public float enemySpeed;              //How fast does the ebemy fly?  
 
 
 
@@ -27,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (GameControl.instance.gameStarted == true && GameControl.instance.gameOver == false)
         {
-            float enemyXPosition = Random.Range(ScreenBounds.x - 1, -ScreenBounds.x + 15);
+            float enemyXPosition = ScreenBounds.x;
             float enemyYPosition = Random.Range(ScreenBounds.y - 1, -ScreenBounds.y + 4);
             GameObject Enemy = Instantiate(enemyPrefab) as GameObject;
             Enemy.transform.position = new Vector2(enemyXPosition, enemyYPosition);
