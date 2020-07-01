@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
             float enemyYPosition = Random.Range(ScreenBounds.y - 1, -ScreenBounds.y + 4);
             GameObject Enemy = Instantiate(enemyPrefab) as GameObject;
             Enemy.transform.position = new Vector2(enemyXPosition, enemyYPosition);
+            Enemy.GetComponent<Rigidbody2D>().velocity = new Vector2(enemySpeed, 0);
         }
     }
 

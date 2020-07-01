@@ -9,6 +9,9 @@ public class BombGenerator : MonoBehaviour
 
     private Vector2 ScreenBounds;         //A reference to the screen bounds
 
+    public float bombSpeed;                   //How fast does the bird fly? (Make sure this coefficient is not set... 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,8 @@ public class BombGenerator : MonoBehaviour
             float BombYPosition = Random.Range(ScreenBounds.y - 1, -ScreenBounds.y + 4);
             GameObject bomb = Instantiate(bombPrefab) as GameObject;
             bomb.transform.position = new Vector2(BombXPosition, BombYPosition);
+            bomb.GetComponent<Rigidbody2D>().velocity = new Vector2(bombSpeed, 0);
+
         }
     }
 
