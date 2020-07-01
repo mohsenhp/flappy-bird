@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 
+    public GameObject Parent;
     public GameObject enemyPrefab;         //A reference to the enemy prefab
     public float spawnInterval;           //The interval at which bombs are instantiated 
 
@@ -30,6 +31,7 @@ public class EnemySpawner : MonoBehaviour
             float enemyYPosition = Random.Range(ScreenBounds.y - 1, -ScreenBounds.y + 4);
             GameObject Enemy = Instantiate(enemyPrefab) as GameObject;
             Enemy.transform.position = new Vector2(enemyXPosition, enemyYPosition);
+            Enemy.transform.SetParent(Parent.transform);
             Enemy.GetComponent<Rigidbody2D>().velocity = new Vector2(enemySpeed, 0);
         }
     }

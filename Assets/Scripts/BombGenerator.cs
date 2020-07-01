@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BombGenerator : MonoBehaviour
 {
+    public GameObject Parent;
     public GameObject bombPrefab;         //A reference to the bomb prefab
     public float spawnInterval;           //The interval at which bombs are instantiated 
 
@@ -28,6 +29,7 @@ public class BombGenerator : MonoBehaviour
             float BombYPosition = Random.Range(ScreenBounds.y - 1, -ScreenBounds.y + 4);
             GameObject bomb = Instantiate(bombPrefab) as GameObject;
             bomb.transform.position = new Vector2(BombXPosition, BombYPosition);
+            bomb.transform.SetParent(Parent.transform);
             bomb.GetComponent<Rigidbody2D>().velocity = new Vector2(bombSpeed, 0);
 
         }

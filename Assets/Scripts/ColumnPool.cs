@@ -17,6 +17,8 @@ public class ColumnPool : MonoBehaviour
 
 	private float timeSinceLastSpawned;
 
+	public GameObject Parent;         // The parent of all of the columns
+
 
 	void Start()
 	{
@@ -34,17 +36,21 @@ public class ColumnPool : MonoBehaviour
 		{
 			//...and create the individual columns.
 			columns[i] = (GameObject)Instantiate(columnPrefab, objectPoolPosition, Quaternion.identity);
+			columns[i].transform.SetParent(Parent.transform);
+
 		}
 	}
 
 	//Destroys the current columns in case a power-up is used.
-	private void DestroyColumns()
+	private void DestroyObstacles()
 	{
-		for (int i = 0; i < columnPoolSize; i++)
-		{
-			//...and create the individual columns.
-			Destroy(columns[i]);
-		}
+		//for (int i = 0; i < columnPoolSize; i++)
+		//{
+		//	//...and create the individual columns.
+		//	Destroy(columns[i]);
+		//}
+		foreach (Transform child in Parent.transform)
+			Destroy(child.gameObject);
 		AudioManager.instance.PlayMusic("DestroyColumns");
 	}
 
@@ -90,7 +96,7 @@ public class ColumnPool : MonoBehaviour
 			if (GameControl.instance.bombCount < 0)
 				GameControl.instance.bombCount = 0;
 			//Destroy the columns...
-			DestroyColumns();
+			DestroyObstacles();
 			//... and re-initialise them again.
 			InitializeColumns();
 		}
