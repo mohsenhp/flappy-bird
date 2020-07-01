@@ -18,7 +18,8 @@ public class GameControl : MonoBehaviour
 	public int bombCount = 0;                      //How many bombs have you got?
 	public bool scoreChanged = false;           //Has the score changed? 
 	public bool gameStarted = false;            //Has the game started?
-	public bool gameOver = false;				//Is the game over?
+	public bool gameOver = false;               //Is the game over?
+	public bool gameOverSoundPlayedBefore;      //To ensure that this sound plays only once, no matter how many collisions happen 
 	
 	public float scrollSpeed;                   //How fast does the bird fly? (Make sure this coefficient is not set... 
 												//... to zero or a positive number in the editor)
@@ -88,7 +89,11 @@ public class GameControl : MonoBehaviour
 		//Set the game to be over.
 		gameOver = true;
 		AudioManager.instance.StopMusic("MainTheme");
-		AudioManager.instance.PlayMusic("GameOver");
+		if (gameOverSoundPlayedBefore == false)
+		{
+			AudioManager.instance.PlayMusic("GameOver");
+			gameOverSoundPlayedBefore = true;
+		}
 	}
 
 	public void BombAcquired()
